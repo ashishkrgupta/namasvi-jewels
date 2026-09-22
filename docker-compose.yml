@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: namasvi-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: namasvi
+      POSTGRES_PASSWORD: namasvi
+      POSTGRES_DB: namasvi_jewels
+    ports:
+      - "5433:5432"
+    volumes:
+      - namasvi_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U namasvi -d namasvi_jewels"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  namasvi_pgdata:
