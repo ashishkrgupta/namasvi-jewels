@@ -145,6 +145,13 @@ model ProductImage {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
+model StoredImage {
+  id        String   @id @default(cuid())
+  data      Bytes    @db.LongBlob
+  mimeType  String
+  createdAt DateTime @default(now())
+}
+
 model ProductVideo {
   id        String  @id @default(cuid())
   url       String

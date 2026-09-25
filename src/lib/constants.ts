@@ -1,6 +1,6 @@
 export const BRAND = {
   name: "Namasvi Jewels",
-  founder: "Varsha Gupta",
+  founder: "Varsha Sahu",
   tagline: "Timeless Beauty. Everyday You.",
   phone: "9935940113",
   phoneHref: "+919935940113",

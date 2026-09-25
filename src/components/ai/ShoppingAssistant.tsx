@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { MessageCircle, Send, Sparkles, X } from "lucide-react";
+import { WHATSAPP_SAMPLE, openWhatsApp } from "@/lib/whatsapp";
 
 type Msg = { role: "user" | "assistant"; text: string };
 
@@ -82,17 +83,28 @@ export function ShoppingAssistant() {
   );
 }
 
-export function WhatsAppButton() {
-  const href = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP || "919935940113"}?text=${encodeURIComponent("Hi Namasvi Jewels, I’d like help choosing a piece.")}`;
+export function WhatsAppButton({ message }: { message?: string }) {
+  function sendSample() {
+    const text = message || WHATSAPP_SAMPLE;
+    openWhatsApp(text);
+    void fetch("/api/whatsapp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: text,
+        page: window.location.href,
+      }),
+    });
+  }
+
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Chat on WhatsApp"
+    <button
+      type="button"
+      onClick={sendSample}
+      aria-label="Send WhatsApp enquiry"
       className="fixed bottom-24 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-soft"
     >
       <MessageCircle className="h-6 w-6" />
-    </a>
+    </button>
   );
 }

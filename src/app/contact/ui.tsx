@@ -5,6 +5,7 @@ import { StoreShell } from "@/components/layout/StoreShellClient";
 import { Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toaster";
 import { BRAND } from "@/lib/constants";
+import { WHATSAPP_SAMPLE, openWhatsApp } from "@/lib/whatsapp";
 
 export function ContactPageClient() {
   const [loading, setLoading] = useState(false);
@@ -52,12 +53,23 @@ export function ContactPageClient() {
             </li>
             <li>Location: {BRAND.location}</li>
           </ul>
-          <a
-            href={`https://wa.me/${BRAND.whatsapp}`}
+          <button
+            type="button"
+            onClick={() => {
+              openWhatsApp(WHATSAPP_SAMPLE);
+              void fetch("/api/whatsapp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  message: WHATSAPP_SAMPLE,
+                  page: window.location.href,
+                }),
+              });
+            }}
             className="mt-6 inline-block rounded-full bg-[#25D366] px-6 py-3 text-xs tracking-[0.18em] text-white uppercase"
           >
             WhatsApp us
-          </a>
+          </button>
           <div className="mt-8 overflow-hidden rounded-[2rem] shadow-soft">
             <iframe
               title="Namasvi Jewels on Google Maps"
